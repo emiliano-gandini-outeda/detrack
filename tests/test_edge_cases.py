@@ -10,7 +10,7 @@ def test_case_insensitivity_utm() -> None:
     ]:
         result = clean(url)
         assert result.url == "https://example.com?q=1", f"Failed for {url}"
-        assert result.removed_params == ["utm_source"] or len(result.removed_params) == 1
+        assert "utm_source" in result.removed_params or "UTM_SOURCE" in result.removed_params or "Utm_Source" in result.removed_params or "utm_SOURCE" in result.removed_params
 
 
 def test_case_insensitivity_fbclid() -> None:
@@ -26,19 +26,19 @@ def test_case_insensitivity_fbclid() -> None:
 def test_empty_values_preserved_for_non_tracking() -> None:
     result = clean("https://example.com?a=&b=2")
     assert result.url == "https://example.com?a=&b=2"
-    assert result.removed_params == []
+    assert result.removed_params == {}
 
 
 def test_empty_values_removed_for_tracking() -> None:
     result = clean("https://example.com?utm_source=&b=2")
     assert result.url == "https://example.com?b=2"
-    assert result.removed_params == ["utm_source"]
+    assert result.removed_params == {"utm_source": ""}
 
 
 def test_duplicate_params_all_removed() -> None:
     result = clean("https://example.com?utm_source=x&utm_source=y&a=1")
     assert result.url == "https://example.com?a=1"
-    assert result.removed_params == ["utm_source", "utm_source"]
+    assert result.removed_params == {"utm_source": "y"}
 
 
 def test_url_without_scheme() -> None:
@@ -66,7 +66,7 @@ def test_no_changes_with_no_tracking() -> None:
     result = clean(url)
     assert result.url == url
     assert result.cleaned_params == {"q": "python", "page": "2"}
-    assert result.removed_params == []
+    assert result.removed_params == {}
 
 
 def test_query_only_function_with_mixed() -> None:

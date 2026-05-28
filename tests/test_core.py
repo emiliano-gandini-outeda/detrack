@@ -5,53 +5,53 @@ def test_clean_basic() -> None:
     result = clean("https://example.com/post?utm_source=twitter&q=python")
     assert result.url == "https://example.com/post?q=python"
     assert result.cleaned_params == {"q": "python"}
-    assert result.removed_params == ["utm_source"]
+    assert result.removed_params == {"utm_source": "twitter"}
 
 
 def test_clean_multiple_trackers() -> None:
     result = clean("https://example.com?a=1&utm_source=x&b=2&fbclid=y&c=3")
     assert result.url == "https://example.com?a=1&b=2&c=3"
     assert result.cleaned_params == {"a": "1", "b": "2", "c": "3"}
-    assert sorted(result.removed_params) == sorted(["utm_source", "fbclid"])
+    assert result.removed_params == {"utm_source": "x", "fbclid": "y"}
 
 
 def test_clean_all_stripped() -> None:
     result = clean("https://example.com?utm_source=x&fbclid=y")
     assert result.url == "https://example.com"
     assert result.cleaned_params == {}
-    assert sorted(result.removed_params) == sorted(["utm_source", "fbclid"])
+    assert result.removed_params == {"utm_source": "x", "fbclid": "y"}
 
 
 def test_clean_custom_patterns() -> None:
     result = clean("https://example.com?session=abc123&page=1", patterns=["session"])
     assert result.url == "https://example.com?page=1"
     assert result.cleaned_params == {"page": "1"}
-    assert result.removed_params == ["session"]
+    assert result.removed_params == {"session": "abc123"}
 
 
 def test_clean_preserves_fragment() -> None:
     result = clean("https://example.com/page?utm_source=x#section")
     assert result.url == "https://example.com/page#section"
-    assert result.removed_params == ["utm_source"]
+    assert result.removed_params == {"utm_source": "x"}
 
 
 def test_clean_no_query() -> None:
     result = clean("https://example.com/page")
     assert result.url == "https://example.com/page"
     assert result.cleaned_params == {}
-    assert result.removed_params == []
+    assert result.removed_params == {}
 
 
 def test_clean_empty_url() -> None:
     result = clean("")
     assert result.url == ""
     assert result.cleaned_params == {}
-    assert result.removed_params == []
+    assert result.removed_params == {}
 
 
 def test_clean_malformed_url() -> None:
     result = clean("http:///example.com")
-    assert result.removed_params == []
+    assert result.removed_params == {}
 
 
 def test_clean_query_basic() -> None:
