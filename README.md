@@ -41,6 +41,10 @@ Other URL cleaners do too much (host remapping, site-specific rules, semantic re
 
 This makes `detrack` predictable, testable, and trivial to integrate.
 
+## Ecosystem
+
+`detrack` is the shared cleaning layer for the [seoslug](https://github.com/emiliano-gandini-outeda/seoslug) (SEO metadata) and [tagurl](https://github.com/emiliano-gandini-outeda/tagurl) (semantic tagging) libraries.
+
 ## Examples
 
 ### Basic
