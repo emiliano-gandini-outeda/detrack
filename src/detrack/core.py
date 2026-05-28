@@ -10,20 +10,20 @@ class DetrackResult:
     url: str
     parsed_url: SplitResult
     cleaned_params: dict[str, str]
-    removed_params: list[str]
+    removed_params: dict[str, str]
 
 
 def _filter_pairs(
     query: str,
     patterns: list[str] | None = None,
-) -> tuple[list[tuple[str, str]], list[str]]:
+) -> tuple[list[tuple[str, str]], dict[str, str]]:
     patterns_set = frozenset(p.lower() for p in (patterns or list(DEFAULT_PATTERNS)))
     pairs = parse_qsl(query, keep_blank_values=True)
     cleaned: list[tuple[str, str]] = []
-    removed: list[str] = []
+    removed: dict[str, str] = {}
     for key, val in pairs:
         if key.lower() in patterns_set:
-            removed.append(key)
+            removed[key] = val
         else:
             cleaned.append((key, val))
     return cleaned, removed
@@ -42,7 +42,7 @@ def clean(url: str, patterns: list[str] | None = None) -> DetrackResult:
                 url=url,
                 parsed_url=parsed,
                 cleaned_params={},
-                removed_params=[],
+                removed_params={},
             )
         cleaned_pairs, removed = _filter_pairs(parsed.query, patterns)
         cleaned_qs = urlencode(cleaned_pairs, doseq=True)
