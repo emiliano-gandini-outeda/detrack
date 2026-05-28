@@ -30,8 +30,11 @@ def _filter_pairs(
 
 
 def clean_query(query: str, patterns: list[str] | None = None) -> str:
-    cleaned, _ = _filter_pairs(query, patterns)
-    return urlencode(cleaned, doseq=True)
+    try:
+        cleaned, _ = _filter_pairs(query, patterns)
+        return urlencode(cleaned, doseq=True)
+    except Exception:
+        return ""
 
 
 def clean(url: str, patterns: list[str] | None = None) -> DetrackResult:
