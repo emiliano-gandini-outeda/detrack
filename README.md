@@ -8,6 +8,7 @@
   <img src="https://img.shields.io/badge/python-3.9+-blue.svg" alt="Python">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT">
   <img src="https://img.shields.io/badge/dependencies-none-brightgreen.svg" alt="no dependencies">
+  <a href="https://pypi.org/project/detrack/"><img src="https://img.shields.io/badge/pypi-detrack-blue.svg" alt="PyPI"></a>
 </p>
 
 ## Install
