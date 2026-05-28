@@ -68,5 +68,5 @@ def clean(url: str, patterns: list[str] | None = None) -> DetrackResult:
             url=url,
             parsed_url=urlsplit(""),
             cleaned_params={},
-            removed_params=[],
+            removed_params={},
         )
