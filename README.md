@@ -1,7 +1,14 @@
-# detrack
+<h1 align="center">detrack</h1>
 
-**Strip tracking parameters from URLs. Deterministically. Zero dependencies.**
+<p align="center">
+  <strong>Strip tracking parameters from URLs. Deterministically. Zero dependencies.</strong>
+</p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/python-3.9+-blue.svg" alt="Python">
+  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="MIT">
+  <img src="https://img.shields.io/badge/dependencies-none-brightgreen.svg" alt="no dependencies">
+</p>
 
 ## Install
 
